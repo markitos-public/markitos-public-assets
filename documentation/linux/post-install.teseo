@@ -92,3 +92,5 @@ ssh-keygen -t ed25519 -C "Marco Antonio - markitos - DevSecOps Kulture - El cami
 
 nano -w ~/.bashrc
 alias gitsets='git config user.email "markitos.es.info" && git config user.name "Marco Antonio DevSecOps_MDK - El camino del Artesano" && sed -i "s/filemode = true/filemode = false/" .git/config'
+alias gacp='git add . && git commit -m "[AUTOCOMMIT] from $(hostname) at $(date)" && git push'
+```
