@@ -89,3 +89,6 @@ npm -v
 cd
 cd .ssh
 ssh-keygen -t ed25519 -C "Marco Antonio - markitos - DevSecOps Kulture - El camino del Artesano <markitos.es.info>" -f github -N ""
+
+nano -w ~/.bashrc
+alias gitsets='git config user.email "markitos.es.info" && git config user.name "Marco Antonio DevSecOps_MDK - El camino del Artesano" && sed -i "s/filemode = true/filemode = false/" .git/config'
