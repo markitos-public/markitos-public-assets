@@ -1,0 +1,91 @@
+#:[.'.]:>---------------------------------------------------------
+#:[.'.]:> Marco Antonio - markitos MDK
+#:[.'.]:> Markitos DevSecOps Kulture - El camino del artesano
+#:[.'.]:> markitos.es.info@gmail.com
+#:[.'.]:> https://github.com/orgs/markitos-public/repositories
+#:[.'.]:>---------------------------------------------------------
+
+```sh
+sudo -i su
+echo "as root user whoami: $(whoami)"
+export MY_PASSWORD=xxxxxxxxxx
+export MY_USERNAME=xxxxxxx
+export MY_HOSTNAME=xxxxx
+env | grep -E 'MY_USERNAME|MY_PASSWORD|MY_HOSTNAME'
+hostnamectl set-hostname "${MY_HOSTNAME}"
+echo "" >> /etc/hosts
+echo "#:{.'.}>----- ${MY_HOSTNAME} network -----" >> /etc/hosts
+echo "192.168.1.200 prometeo1" >> /etc/hosts
+echo "192.168.1.250 titan1"   >> /etc/hosts
+echo "192.168.1.251 titan2"   >> /etc/hosts
+echo "192.168.1.252 titan3"   >> /etc/hosts
+echo "#:{.'.}>----- ${MY_HOSTNAME} network -----" >> /etc/hosts
+echo "" >> /etc/hosts
+echo "" >> /etc/bash.bashrc
+echo "#:{.'.}>" >> /etc/bash.bashrc
+echo "#:{.'.}>----- startof.aliases ${MY_HOSTNAME} -----" >> /etc/bash.bashrc
+echo "alias prometeo1=\"sshpass -p ${MY_PASSWORD} ssh ${MY_USERNAME}@prometeo1\"" >> /etc/bash.bashrc
+echo "alias titan1=\"sshpass -p ${MY_PASSWORD} ssh ${MY_USERNAME}@titan1\"" >> /etc/bash.bashrc
+echo "alias titan2=\"sshpass -p ${MY_PASSWORD} ssh ${MY_USERNAME}@titan2\"" >> /etc/bash.bashrc
+echo "alias titan3=\"sshpass -p ${MY_PASSWORD} ssh ${MY_USERNAME}@titan3\"" >> /etc/bash.bashrc
+echo "#:{.'.}>----- endof.alias ${MY_HOSTNAME} -----" >> /etc/bash.bashrc
+echo "#:{.'.}>" >> /etc/bash.bashrc
+echo "#:{.'.}>----- startof.misc-sets ${MY_HOSTNAME} -----" >> /etc/bash.bashrc
+echo "export LANG=es_ES.UTF-8" >> /etc/bash.bashrc
+echo "if [[ -n \$SSH_CONNECTION ]]; then" >> /etc/bash.bashrc
+echo "   export EDITOR='nano'" >> /etc/bash.bashrc
+echo " else" >> /etc/bash.bashrc
+echo "   export EDITOR='nano'" >> /etc/bash.bashrc
+echo "fi" >> /etc/bash.bashrc
+echo "#:{.'.}>----- endof.misc-sets ${MY_HOSTNAME} -----" >> /etc/bash.bashrc
+echo "" >> /etc/bash.bashrc
+echo "${MY_USERNAME}    ALL = (ALL) NOPASSWD: ALL" >>/etc/sudoers
+apt update && apt upgrade -y
+apt install -y ccze software-properties-common nano git sshpass make progress locate
+apt install -y docker-compose-v2 docker.io btop curl apt-transport-https ca-certificates curl net-tools
+updatedb
+hostnamectl set-hostname "${MY_HOSTNAME}"
+exit
+```
+
+```sh
+echo "as normal user whoami: $(whoami)"
+export MY_PASSWORD=xxxxxxxxxx
+export MY_USERNAME=xxxxxxx
+export MY_HOSTNAME=xxxxx
+env | grep -E 'MY_USERNAME|MY_PASSWORD|MY_HOSTNAME'
+
+sudo usermod -aG docker $USER
+sudo chown $USER /var/run/docker.sock
+
+
+cd /tmp
+git clone https://github.com/go-nv/goenv.git ~/.goenv
+echo "" >> ~/.bashrc
+echo "#:{.'.}>----- golang sets -----" >> ~/.bashrc
+echo 'export GOENV_ROOT="$HOME/.goenv"' >> ~/.bashrc
+echo 'export PATH="$GOENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(goenv init -)"' >> ~/.bashrc
+echo 'export PATH="$GOROOT/bin:$PATH"' >> ~/.bashrc
+echo 'export PATH="$PATH:$GOPATH/bin"' >> ~/.bashrc
+echo "#:{.'.}>----- golang sets -----" >> ~/.bashrc
+echo "" >> ~/.bashrc
+source ~/.bashrc
+goenv install 1.24.1
+goenv global 1.24.1
+go version
+
+
+cd /tmp
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+source ~/.bashrc
+nvm install v20.17.0
+nvm use v20.17.0
+nvm version
+node -v
+npm -v
+
+
+cd
+cd .ssh
+ssh-keygen -t ed25519 -C "Marco Antonio - markitos - DevSecOps Kulture - El camino del Artesano <markitos.es.info>" -f github -N ""
